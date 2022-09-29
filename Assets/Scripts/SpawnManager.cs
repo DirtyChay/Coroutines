@@ -5,10 +5,14 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour {
     public GameObject sentry;
     public Transform[] spawnPositions;
+    public int spawnTime = 5;
+    public bool keepSpawning;
 
 	// Use this for initialization
 	void Start () {
         // Task 2: Start Your Coroutine Here
+        keepSpawning = true;
+        StartCoroutine(SpawnGuys());
 	}
 	
 	// Update is called once per frame
@@ -17,4 +21,13 @@ public class SpawnManager : MonoBehaviour {
 	}
 
     // Task 2: Write Your Coroutine Here
+    IEnumerator SpawnGuys() {
+	    while (keepSpawning) {
+		    for (int i = 0; i < spawnPositions.Length; i++) {
+			    GameObject newSentry = Instantiate(sentry);
+			    newSentry.transform.position = spawnPositions[i].position;
+			    yield return new WaitForSeconds(spawnTime);
+		    }
+	    }
+    }
 }
